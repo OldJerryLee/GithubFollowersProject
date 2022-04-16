@@ -8,7 +8,6 @@
 import UIKit
 
 class GFUserInfoHeaderVC: UIViewController {
-
     let avatarImageView = GFAvatarImageView(frame: .zero)
     let usernameLabel = GFTitleLabel(textAlignment: .left, fontSize: 34)
     let nameLabel = GFSecondaryTitleLabel(fontSize: 18)
@@ -29,17 +28,13 @@ class GFUserInfoHeaderVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
+        view.addSubviews(avatarImageView, usernameLabel, nameLabel, locationImageView, locationLabel, bioLabel)
         layoutUI()
         configureUIElements()
     }
 
-    func addSubviews() {
-        view.addSubviews(avatarImageView, usernameLabel, nameLabel, locationImageView, locationLabel, bioLabel)
-    }
-
     func configureUIElements() {
-        downloadAvatarImage()
+        avatarImageView.downloadImage(fromUrl: user.avatarUrl)
         usernameLabel.text = user.login
         nameLabel.text = user.name ?? ""
         locationLabel.text = user.location ?? "No Location"
@@ -48,15 +43,6 @@ class GFUserInfoHeaderVC: UIViewController {
 
         locationImageView.image = SFSymbols.location
         locationImageView.tintColor = .secondaryLabel
-    }
-
-    func downloadAvatarImage() {
-        NetworkManager.shared.downloadImage(from: user.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.avatarImageView.image = image
-            }
-        }
     }
 
     func layoutUI() {
