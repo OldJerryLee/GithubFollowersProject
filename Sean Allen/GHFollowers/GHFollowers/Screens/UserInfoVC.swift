@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol UserInfoDelegate: class {
+protocol UserInfoDelegate: AnyObject {
     func didRequestFollower(for username: String)
 }
 
